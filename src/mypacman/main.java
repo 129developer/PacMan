@@ -16,6 +16,8 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
@@ -36,12 +38,13 @@ public class main extends Frame implements ActionListener {
     double h;
     Timer timer;
     int x1 = 0, x2 = 100, y1 = 50, y2 = 100;
-    pacman pm = new pacman(x2, y2);
+    pacman pm;
 
     public main() {
         super("PacMan");
         setSize(400, 300);
         setVisible(true);
+        addKeyListener(new TAdapter());
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 dispose();
@@ -57,8 +60,10 @@ public class main extends Frame implements ActionListener {
         size = getSize();
         w = size.getWidth();
         h = size.getHeight();
-//        pm = new pacman(x2, y2);
-        timer = new Timer(250, this);
+        pm = new pacman(x2, y2);
+        pm.setHeight(30);
+        pm.setWidth(30);
+        timer = new Timer(10, this);
         timer.start();
 
     }
@@ -72,26 +77,31 @@ public class main extends Frame implements ActionListener {
         rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHints(rh);
-        pm = new pacman(x1, y1);
-        pm.setHeight(30);
-        pm.setWidth(30);
+//        pm = new pacman(x1, y1);
+
         if (pm != null) {
-            if (x1 % 2 == 0) {
-                pm.flipLeft();
-                g2d.drawImage(pm.getImage(), pm.getX(), pm.getY(), pm.getWidth(), pm.getHeight(), this);
-            } else {
-                pm.flipRight();
-                g2d.drawImage(pm.getImage(), pm.getX(), pm.getY(), pm.getWidth(), pm.getHeight(), this);
-            }
+            g2d.drawImage(pm.getImage(), pm.getX(), pm.getY(), pm.getWidth(), pm.getHeight(), this);
         }
         Toolkit.getDefaultToolkit().sync();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        x1++;
-//        y1++;
+        pm.move();
         repaint();
-        Toolkit.getDefaultToolkit().sync();
     }
+
+    private class TAdapter extends KeyAdapter {
+
+//        @Override
+//        public void keyReleased(KeyEvent e) {
+//            System.out.println("PRESSED");
+//            pm.keyReleased(e);
+//        }
+        @Override
+        public void keyPressed(KeyEvent e) {
+            pm.keyPressed(e);
+        }
+    }
+
 }
