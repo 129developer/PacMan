@@ -11,8 +11,21 @@ package mypacman.objects;
  */
 public class pacman extends Sprite {
 
+    boolean left = true;
+
     public pacman(int x, int y, String imagename) {
         super(x, y, imagename);
+    }
+
+    public void flipLeft() {
+        left = true;
+        setX(x + height);
+        setWidth(-width);
+    }
+     public void flipRight() {
+        left = true;
+        setX(x- height);
+        setWidth(-width);
     }
 
     public pacman(int x, int y) {

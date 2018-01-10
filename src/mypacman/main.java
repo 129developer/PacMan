@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.AffineTransformOp;
 import javax.swing.Timer;
 import mypacman.objects.pacman;
 
@@ -56,8 +58,11 @@ public class main extends Frame implements ActionListener {
         w = size.getWidth();
         h = size.getHeight();
 //        pm = new pacman(x2, y2);
-        timer = new Timer(25, this);
+        timer = new Timer(250, this);
         timer.start();
+
+        pm.setHeight(30);
+        pm.setWidth(30);
 
     }
 
@@ -71,14 +76,21 @@ public class main extends Frame implements ActionListener {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHints(rh);
         pm = new pacman(x1, y1);
+
         if (pm != null) {
-            g2d.drawImage(pm.getImage(), pm.getX(), pm.getY(), 30, 30, this);
+            if (x1 % 2 == 0) {
+                pm.flipLeft();
+                g2d.drawImage(pm.getImage(), pm.getX(), pm.getY(), pm.getWidth(), pm.getHeight(), this);
+            } else {
+                pm.flipRight();
+                g2d.drawImage(pm.getImage(), pm.getX(), pm.getY(), pm.getWidth(), pm.getHeight(), this);
+            }
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        x1+=2;
+        x1++;
 //        y1++;
         repaint();
         Toolkit.getDefaultToolkit().sync();
