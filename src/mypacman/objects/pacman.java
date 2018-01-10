@@ -18,14 +18,23 @@ public class pacman extends Sprite {
     }
 
     public void flipLeft() {
-        left = true;
-        setX(x + height);
-        setWidth(-width);
+        if (!left) {
+            left = true;
+            setX(x - height);
+            setWidth(-width);
+        }
     }
-     public void flipRight() {
-        left = true;
-        setX(x- height);
-        setWidth(-width);
+
+    public void flipRight() {
+        if (left) {
+            left = false;
+            setX(x + height);
+            setWidth(-width);
+        }
+    }
+
+    public boolean isLeft() {
+        return left;
     }
 
     public pacman(int x, int y) {

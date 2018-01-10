@@ -49,10 +49,10 @@ public class main extends Frame implements ActionListener {
             }
         });
 
-        rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+        this.rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        rh.put(RenderingHints.KEY_RENDERING,
+        this.rh.put(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
         size = getSize();
         w = size.getWidth();
@@ -60,9 +60,6 @@ public class main extends Frame implements ActionListener {
 //        pm = new pacman(x2, y2);
         timer = new Timer(250, this);
         timer.start();
-
-        pm.setHeight(30);
-        pm.setWidth(30);
 
     }
 
@@ -76,7 +73,8 @@ public class main extends Frame implements ActionListener {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHints(rh);
         pm = new pacman(x1, y1);
-
+        pm.setHeight(30);
+        pm.setWidth(30);
         if (pm != null) {
             if (x1 % 2 == 0) {
                 pm.flipLeft();
@@ -86,6 +84,7 @@ public class main extends Frame implements ActionListener {
                 g2d.drawImage(pm.getImage(), pm.getX(), pm.getY(), pm.getWidth(), pm.getHeight(), this);
             }
         }
+        Toolkit.getDefaultToolkit().sync();
     }
 
     @Override
