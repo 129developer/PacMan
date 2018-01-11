@@ -5,12 +5,9 @@
  */
 package mypacman;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -19,12 +16,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import mypacman.objects.ghost;
+import mypacman.objects.maps.*;
 import mypacman.objects.pacman;
 import mypacman.utils.Constants;
-import mypacman.utils.genUtils;
 
 /**
  *
@@ -32,23 +28,16 @@ import mypacman.utils.genUtils;
  */
 public class main extends Frame implements ActionListener {
 
-    RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON);
-    Dimension size;
-    double w;
-    double h;
+    RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     Timer timer;
     int x1 = 100, x2 = 150, y1 = 100, y2 = 100;
     pacman pm;
-    ghost g1,g2,g3;
-    Color BLOCKCOLOR = Constants.BLOCKCOLOR;
-    Color PATHCOLOR = Constants.PATHCOLOR;
-    boolean mapReady = false;
+    ghost g1, g2, g3;
+    basicMap currentMap = new level1();
 
     public main() {
         super("PacMan");
-        setSize(600, 600);
-        setVisible(true);
+
         addKeyListener(new TAdapter());
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -56,26 +45,34 @@ public class main extends Frame implements ActionListener {
                 System.exit(0);
             }
         });
-        setBackground(BLOCKCOLOR);
+        setBackground(Constants.BLOCKCOLOR);
+        initSprites();
+        
+        timer = new Timer(25, this);
+        timer.start();
+        
+        setIgnoreRepaint(true);
+        setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+        setVisible(true);
+    }
 
+    protected void initSprites() {
         pm = new pacman(x2, y2);
         pm.setHeight(30);
         pm.setWidth(30);
+        pm.setMOVEVAL(3);
         g1 = new ghost(x1, y1);
         g1.setHeight(30);
         g1.setWidth(30);
         g1.setGHOSTTYPE(2);
-        g2 = new ghost(400, 300,"ghost2.png");
+        g2 = new ghost(400, 300, "ghost2.png");
         g2.setHeight(30);
         g2.setWidth(30);
         g2.setGHOSTTYPE(2);
-        g3 = new ghost(400, 300,"ghost3.png");
+        g3 = new ghost(400, 300, "ghost3.png");
         g3.setHeight(30);
         g3.setWidth(30);
         g3.setGHOSTTYPE(1);
-        timer = new Timer(25, this);
-        timer.start();
-        setIgnoreRepaint(true);
     }
 
     public static void main(String args[]) {
@@ -87,40 +84,16 @@ public class main extends Frame implements ActionListener {
 //        rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
 //                RenderingHints.VALUE_ANTIALIAS_ON);
 //        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.setRenderingHints(rh);
+//        g2d.setRenderingHints(rh);
         if (pm != null) {
-            drawmap(g2d);
+            currentMap.generateMap(g2d);
             g2d.drawImage(pm.getImage(), pm.getX(), pm.getY(), pm.getWidth(), pm.getHeight(), this);
             g2d.drawImage(g1.getImage(), g1.getX(), g1.getY(), g1.getWidth(), g1.getHeight(), this);
             g2d.drawImage(g2.getImage(), g2.getX(), g2.getY(), g2.getWidth(), g2.getHeight(), this);
             g2d.drawImage(g3.getImage(), g3.getX(), g3.getY(), g3.getWidth(), g3.getHeight(), this);
-//            drawSpriteFrame(new ImageIcon(genUtils.getResource("ghosts.png")).getImage(), g2d, 100, 100, 1, 0, 30, 30);
             Toolkit.getDefaultToolkit().sync();
         }
 
-    }
-
-    private void drawmap(Graphics2D g2d) {
-        g2d.setColor(PATHCOLOR);
-        genPathBoxV(g2d, 274, 120, 200);
-        genPathBoxH(g2d, 84, 100, 400);//top hot
-        genPathBoxH(g2d, 84, 300, 400);
-        genPathBoxH(g2d, 204, 200, 100);
-        g2d.fillRect(80, 160, 130, 120); //left box
-
-        g2d.setColor(BLOCKCOLOR);
-        g2d.fillOval(117, 195, 50, 50); //left box inner
-        g2d.fillRect(117, 195, 50, 50); //left box inner
-        mapReady = true;
-//        Toolkit.getDefaultToolkit().sync();
-    }
-
-    private static void genPathBoxH(Graphics2D g2d, int x, int y, int width) {
-        g2d.fillRect(x, y, width, 40);
-    }
-
-    private static void genPathBoxV(Graphics2D g2d, int x, int y, int height) {
-        g2d.fillRect(x, y, 40, height);
     }
 
     @Override

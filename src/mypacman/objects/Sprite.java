@@ -5,8 +5,12 @@
  */
 package mypacman.objects;
 
+import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.Robot;
 import javax.swing.ImageIcon;
+import mypacman.utils.Constants;
 import mypacman.utils.genUtils;
 
 public class Sprite {
@@ -17,6 +21,17 @@ public class Sprite {
     protected int height;
     protected boolean vis;
     protected Image image;
+    protected Color BLOCKCOLOR = Constants.BLOCKCOLOR;
+    protected Color PATHCOLOR = Constants.PATHCOLOR;
+    protected int MOVEVAL = Constants.MOVEVAL;
+
+    public int getMOVEVAL() {
+        return MOVEVAL;
+    }
+
+    public void setMOVEVAL(int MOVEVAL) {
+        this.MOVEVAL = MOVEVAL;
+    }
 
     public Sprite(int x, int y, String imageName) {
         this.x = x;
@@ -77,6 +92,11 @@ public class Sprite {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public static Color getPixel(int x, int y) throws AWTException {
+        Robot rb = new Robot();
+        return rb.getPixelColor(x, y);
     }
 
 }
