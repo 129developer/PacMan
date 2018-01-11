@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.Timer;
+import mypacman.utils.Constants;
 
 /**
  *
@@ -22,10 +23,11 @@ public class ghost extends Sprite implements ActionListener {
     boolean touchleft = true, touchright = false, openmouth = true;
     private int dx = 0;
     private int dy = 0;
-    private int MOVEVAL = 4;
+    private int MOVEVAL = Constants.MOVEVAL;
     private int GHOSTTYPE = 2;//1 Follower, 2 horizondal guard, 3 vertical guard
     Timer timer;
-    Color BLOCKCOLOR = Color.RED;
+    Color BLOCKCOLOR = Constants.BLOCKCOLOR;
+    Color PATHCOLOR = Constants.PATHCOLOR;
 
     public ghost(int x, int y, String imagename) {
         super(x, y, imagename);

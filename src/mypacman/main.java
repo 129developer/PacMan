@@ -23,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import mypacman.objects.ghost;
 import mypacman.objects.pacman;
+import mypacman.utils.Constants;
 import mypacman.utils.genUtils;
 
 /**
@@ -39,9 +40,9 @@ public class main extends Frame implements ActionListener {
     Timer timer;
     int x1 = 100, x2 = 150, y1 = 100, y2 = 100;
     pacman pm;
-    ghost g1;
-    Color BLOCKCOLOR = Color.red;
-    Color PATHCOLOR = Color.BLACK;
+    ghost g1,g2,g3;
+    Color BLOCKCOLOR = Constants.BLOCKCOLOR;
+    Color PATHCOLOR = Constants.PATHCOLOR;
     boolean mapReady = false;
 
     public main() {
@@ -64,6 +65,14 @@ public class main extends Frame implements ActionListener {
         g1.setHeight(30);
         g1.setWidth(30);
         g1.setGHOSTTYPE(2);
+        g2 = new ghost(400, 300,"ghost2.png");
+        g2.setHeight(30);
+        g2.setWidth(30);
+        g2.setGHOSTTYPE(2);
+        g3 = new ghost(400, 300,"ghost3.png");
+        g3.setHeight(30);
+        g3.setWidth(30);
+        g3.setGHOSTTYPE(1);
         timer = new Timer(25, this);
         timer.start();
         setIgnoreRepaint(true);
@@ -83,6 +92,8 @@ public class main extends Frame implements ActionListener {
             drawmap(g2d);
             g2d.drawImage(pm.getImage(), pm.getX(), pm.getY(), pm.getWidth(), pm.getHeight(), this);
             g2d.drawImage(g1.getImage(), g1.getX(), g1.getY(), g1.getWidth(), g1.getHeight(), this);
+            g2d.drawImage(g2.getImage(), g2.getX(), g2.getY(), g2.getWidth(), g2.getHeight(), this);
+            g2d.drawImage(g3.getImage(), g3.getX(), g3.getY(), g3.getWidth(), g3.getHeight(), this);
 //            drawSpriteFrame(new ImageIcon(genUtils.getResource("ghosts.png")).getImage(), g2d, 100, 100, 1, 0, 30, 30);
             Toolkit.getDefaultToolkit().sync();
         }
@@ -116,6 +127,8 @@ public class main extends Frame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         pm.move();
         g1.move(pm);
+        g2.move(pm);
+        g3.move(pm);
         repaint();
     }
 

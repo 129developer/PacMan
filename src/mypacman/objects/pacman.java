@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import mypacman.utils.Constants;
 
 /**
  *
@@ -25,9 +26,10 @@ public class pacman extends Sprite implements ActionListener {
     boolean left = false, openmouth = true;
     private int dx;
     private int dy;
-    private int MOVEVAL = 4;
+    private int MOVEVAL = Constants.MOVEVAL;
     Timer timer;
-    Color BLOCKCOLOR = Color.RED;
+    Color BLOCKCOLOR = Constants.BLOCKCOLOR;
+    Color PATHCOLOR = Constants.PATHCOLOR;
 
     public pacman(int x, int y, String imagename) {
         super(x, y, imagename);
