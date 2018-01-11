@@ -25,7 +25,7 @@ public class pacman extends Sprite implements ActionListener {
     boolean left = false, openmouth = true;
     private int dx;
     private int dy;
-    private int MOVEVAL = 3;
+    private int MOVEVAL = 4;
     Timer timer;
     Color BLOCKCOLOR = Color.RED;
 
@@ -138,7 +138,7 @@ public class pacman extends Sprite implements ActionListener {
                     flag = true;
                 }
             }
-//            System.out.println(x + "," + y);
+            //    System.out.println(x + "," + y);
 
         } catch (Exception e) {
             e.printStackTrace();

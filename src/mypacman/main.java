@@ -21,6 +21,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
+import mypacman.objects.ghost;
 import mypacman.objects.pacman;
 import mypacman.utils.genUtils;
 
@@ -36,8 +37,9 @@ public class main extends Frame implements ActionListener {
     double w;
     double h;
     Timer timer;
-    int x1 = 0, x2 = 100, y1 = 50, y2 = 100;
+    int x1 = 100, x2 = 150, y1 = 100, y2 = 100;
     pacman pm;
+    ghost g1;
     Color BLOCKCOLOR = Color.red;
     Color PATHCOLOR = Color.BLACK;
     boolean mapReady = false;
@@ -58,6 +60,9 @@ public class main extends Frame implements ActionListener {
         pm = new pacman(x2, y2);
         pm.setHeight(30);
         pm.setWidth(30);
+        g1 = new ghost(x1, y1);
+        g1.setHeight(30);
+        g1.setWidth(30);
         timer = new Timer(25, this);
         timer.start();
         setIgnoreRepaint(true);
@@ -68,60 +73,51 @@ public class main extends Frame implements ActionListener {
     }
 
     public void paint(Graphics g) {
-
         Graphics2D g2d = (Graphics2D) g;
-//        Graphics2D g2d1 = (Graphics2D) g;
-//        Graphics2D g2d2 = (Graphics2D) g;
-//        size = getSize();
-//        w = size.getWidth();
-//        h = size.getHeight();
 //        rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
 //                RenderingHints.VALUE_ANTIALIAS_ON);
 //        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-//        g2d.setRenderingHints(rh);
-//        g2d1.setRenderingHints(rh);
-//        g2d2.setRenderingHints(rh);
+        g2d.setRenderingHints(rh);
         if (pm != null) {
             drawmap(g2d);
-//            BufferedImage bf = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
             g2d.drawImage(pm.getImage(), pm.getX(), pm.getY(), pm.getWidth(), pm.getHeight(), this);
-            drawSpriteFrame(new ImageIcon(genUtils.getResource("ghosts.png")).getImage(),g2d,100,100,1,0,30,30);
+            g2d.drawImage(g1.getImage(), g1.getX(), g1.getY(), g1.getWidth(), g1.getHeight(), this);
+//            drawSpriteFrame(new ImageIcon(genUtils.getResource("ghosts.png")).getImage(), g2d, 100, 100, 1, 0, 30, 30);
             Toolkit.getDefaultToolkit().sync();
         }
 
     }
 
-    void drawSpriteFrame(Image source, Graphics2D g2d, int x, int y,
-            int columns, int frame, int width, int height) {
-        int frameX = (frame % columns) * width;
-        int frameY = (frame / columns) * height;
-        g2d.drawImage(source, x, y, x + width, y + height,
-                frameX, frameY, frameX + width, frameY + height, this);
-    }
+
 
     private void drawmap(Graphics2D g2d) {
-//        g2d.setColor(BLOCKCOLOR);
-//        g2d.fillRect(0, 0, 600, 600);
         g2d.setColor(PATHCOLOR);
+        genPathBoxV(g2d, 274, 120, 200);
+        genPathBoxH(g2d, 84, 100, 400);//top hot
+        genPathBoxH(g2d, 84, 300, 400);
+        genPathBoxH(g2d, 204, 200, 100);
+        g2d.fillRect(80, 160, 130, 120); //left box
 
-//        g2d.fillRect(150, 50, 250, 50);
-//        g2d.fillRect(150, 150, 100, 200);
-        g2d.fillRect(274, 120, 40, 200);
-//        g2d.fillRect(284, 100, 200, 40);
-        g2d.fillRect(84, 100, 400, 40);
-        g2d.fillRect(84, 300, 400, 40);
 
-//        g2d.setStroke(new BasicStroke(5));
-//        g2d.drawRect(10, 40, 550, 550);
-//        g2d.setColor(Color.blue);
-//        g2d.fillOval(x2, y2, 5, 5);
+        g2d.setColor(BLOCKCOLOR);
+        g2d.fillOval(117, 195, 50, 50); //left box inner
+        g2d.fillRect(117, 195, 50, 50); //left box inner
         mapReady = true;
-        Toolkit.getDefaultToolkit().sync();
+//        Toolkit.getDefaultToolkit().sync();
+    }
+
+    private static void genPathBoxH(Graphics2D g2d, int x, int y, int width) {
+        g2d.fillRect(x, y, width, 40);
+    }
+
+    private static void genPathBoxV(Graphics2D g2d, int x, int y, int height) {
+        g2d.fillRect(x, y, 40, height);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         pm.move();
+        g1.move(pm);
         repaint();
     }
 
