@@ -63,6 +63,7 @@ public class main extends Frame implements ActionListener {
         g1 = new ghost(x1, y1);
         g1.setHeight(30);
         g1.setWidth(30);
+        g1.setGHOSTTYPE(2);
         timer = new Timer(25, this);
         timer.start();
         setIgnoreRepaint(true);
@@ -88,8 +89,6 @@ public class main extends Frame implements ActionListener {
 
     }
 
-
-
     private void drawmap(Graphics2D g2d) {
         g2d.setColor(PATHCOLOR);
         genPathBoxV(g2d, 274, 120, 200);
@@ -97,7 +96,6 @@ public class main extends Frame implements ActionListener {
         genPathBoxH(g2d, 84, 300, 400);
         genPathBoxH(g2d, 204, 200, 100);
         g2d.fillRect(80, 160, 130, 120); //left box
-
 
         g2d.setColor(BLOCKCOLOR);
         g2d.fillOval(117, 195, 50, 50); //left box inner

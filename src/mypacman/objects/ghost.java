@@ -19,11 +19,11 @@ import javax.swing.Timer;
  */
 public class ghost extends Sprite implements ActionListener {
 
-    boolean left = false,
-            openmouth = true;
-    private int dx;
-    private int dy;
+    boolean touchleft = true, touchright = false, openmouth = true;
+    private int dx = 0;
+    private int dy = 0;
     private int MOVEVAL = 4;
+    private int GHOSTTYPE = 2;//1 Follower, 2 horizondal guard, 3 vertical guard
     Timer timer;
     Color BLOCKCOLOR = Color.RED;
 
@@ -33,8 +33,12 @@ public class ghost extends Sprite implements ActionListener {
         timer.start();
     }
 
-    public boolean isLeft() {
-        return left;
+    public int getGHOSTTYPE() {
+        return GHOSTTYPE;
+    }
+
+    public void setGHOSTTYPE(int GHOSTTYPE) {
+        this.GHOSTTYPE = GHOSTTYPE;
     }
 
     public ghost(int x, int y) {
@@ -44,6 +48,16 @@ public class ghost extends Sprite implements ActionListener {
     }
 
     public void move(pacman pm) {
+        if (GHOSTTYPE == 1) {
+            moveFollower(pm);
+        } else if (GHOSTTYPE == 2) {
+            moveHGuard();
+        } else if (GHOSTTYPE == 3) {
+            moveHGuard();
+        }
+    }
+
+    public void moveFollower(pacman pm) {
         checkCollition();
         int pmx = pm.getX();
         int pmy = pm.getY();
@@ -103,6 +117,32 @@ public class ghost extends Sprite implements ActionListener {
         y += dy;
     }
 
+    public void moveHGuard() {
+//        checkCollition();
+        // X
+        if (touchleft) {
+            if (!checkCollition(KeyEvent.VK_RIGHT)) {
+                dx = 1;
+            } else {
+                touchright = true;
+                touchleft = false;
+                dx = -1;
+            }
+        }
+
+        if (touchright) {
+            dx = 1;
+            if (!checkCollition(KeyEvent.VK_LEFT)) {
+                dx = -1;
+            } else {
+                touchleft = true;
+                touchright = false;
+                dx = 1;
+            }
+        }
+        x += dx;
+    }
+
     public static Color getPixel(int x, int y) throws AWTException {
         Robot rb = new Robot();
         return rb.getPixelColor(x, y);
@@ -144,7 +184,7 @@ public class ghost extends Sprite implements ActionListener {
     public boolean checkCollition(int key) {
         boolean flag = false;
         try {
-            int dx = 0, MOVEVAL = this.MOVEVAL + 10;
+            int dx = 0, MOVEVAL = this.MOVEVAL;
             int dy = 0;
             if (KeyEvent.VK_RIGHT == key) {
                 dx = MOVEVAL;

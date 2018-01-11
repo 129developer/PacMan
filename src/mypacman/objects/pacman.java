@@ -113,28 +113,28 @@ public class pacman extends Sprite implements ActionListener {
             if (KeyEvent.VK_RIGHT == key) {
                 dx = MOVEVAL;
                 if ((getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//right
-                    System.out.println("RIGHT FAILED");
+//                    System.out.println("RIGHT FAILED");
                     flag = true;
                 }
             }
             if (KeyEvent.VK_LEFT == key) {
                 dx = -MOVEVAL;
                 if (dx < 0 && (getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {////left
-                    System.out.println("LEFT FAILED");
+//                    System.out.println("LEFT FAILED");
                     flag = true;
                 }
             }
             if (KeyEvent.VK_DOWN == key) {
                 dy = MOVEVAL;
                 if (dy > 0 && (getPixel(dx + x, dy + y + height).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//down
-                    System.out.println("DOWN FAILED");
+//                    System.out.println("DOWN FAILED");
                     flag = true;
                 }
             }
             if (KeyEvent.VK_UP == key) {
                 dy = -MOVEVAL;
                 if (dy < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//up
-                    System.out.println("UP FAILED");
+//                    System.out.println("UP FAILED");
                     flag = true;
                 }
             }
