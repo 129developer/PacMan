@@ -17,8 +17,8 @@ public class Sprite {
 
     protected int x;
     protected int y;
-    protected int width;
-    protected int height;
+    protected int width = Constants.CHARWIDTH;
+    protected int height = Constants.CHARWIDTH;
     protected boolean vis;
     protected Image image;
     protected Color BLOCKCOLOR = Constants.BLOCKCOLOR;

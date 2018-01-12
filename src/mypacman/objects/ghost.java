@@ -36,14 +36,15 @@ public class ghost extends Sprite implements ActionListener {
 
     public ghost(int x, int y, String imagename) {
         super(x, y, imagename);
-        timer = new Timer(40, this);
-        timer.start();
+//        timer = new Timer(40, this);
+//        timer.start();
     }
 
-    public ghost(int x, int y) {
-        super(x, y, "ghost1.png");
-        timer = new Timer(250, this);
-        timer.start();
+    public ghost(int x, int y, int gt) {
+        super(x, y, "ghost"+gt+".png");
+        GHOSTTYPE = gt;
+//        timer = new Timer(250, this);
+//        timer.start();
     }
 
     public void move(pacman pm) {
@@ -54,6 +55,15 @@ public class ghost extends Sprite implements ActionListener {
         } else if (GHOSTTYPE == 3) {
             moveHGuard();
         }
+        int pmx = pm.getX();
+        int pmy = pm.getY();
+        int difx = pmx - x;
+        int dify = pmy - y;
+        dify = dify > 0 ? dify : -dify;
+        difx = difx > 0 ? difx : -difx;
+        if (difx <= width && dify <= height) {
+            pm.die();
+        }
     }
 
     public void moveFollower(pacman pm) {
@@ -62,8 +72,8 @@ public class ghost extends Sprite implements ActionListener {
         int pmy = pm.getY();
         int difx = pmx - x;
         int dify = pmy - y;
-        dify = dify > 0 ? dify : -dify;
-        difx = difx > 0 ? difx : -difx;
+        dify = Math.abs(dify);
+        difx = Math.abs(difx);
         if (difx > dify) {
             // X
             if (pmx > x) {

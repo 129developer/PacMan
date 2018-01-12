@@ -5,17 +5,10 @@
  */
 package mypacman.objects;
 
-import java.awt.AWTException;
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Graphics2D;
-import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import javax.swing.JFrame;
 import javax.swing.Timer;
-import mypacman.utils.Constants;
 
 /**
  *
@@ -23,16 +16,20 @@ import mypacman.utils.Constants;
  */
 public class pacman extends Sprite implements ActionListener {
 
-    boolean left = false, openmouth = true;
+    boolean left = false, openmouth = true, isAlive = true;
     private int dx;
     private int dy;
     Timer timer;
 
-
-
     public pacman(int x, int y, String imagename) {
         super(x, y, imagename);
-        timer = new Timer(40, this);
+        timer = new Timer(150, this);
+        timer.start();
+    }
+
+    public pacman(int x, int y) {
+        super(x, y, "pacmanclosed.png");
+        timer = new Timer(150, this);
         timer.start();
     }
 
@@ -52,17 +49,21 @@ public class pacman extends Sprite implements ActionListener {
         }
     }
 
+    public void die() {
+        loadImage("Heat.png");
+        isAlive = false;
+        openmouth = false;
+        loadImage("Heat2.png");
+    }
+
     public boolean isLeft() {
         return left;
     }
 
-    public pacman(int x, int y) {
-        super(x, y, "pacmanclosed.png");
-        timer = new Timer(250, this);
-        timer.start();
-    }
-
     public void move() {
+        if (!isAlive) {
+            return;
+        }
         checkCollition();
         x += dx;
         y += dy;
@@ -132,7 +133,9 @@ public class pacman extends Sprite implements ActionListener {
     }
 
     public void keyPressed(KeyEvent e) {
-
+        if (!isAlive) {
+            return;
+        }
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
@@ -168,12 +171,22 @@ public class pacman extends Sprite implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (!openmouth) {
-            openmouth = true;
-            loadImage("pacman.png");
+        if (isAlive) {
+            if (!openmouth) {
+                openmouth = true;
+                loadImage("pacman.png");
+            } else {
+                openmouth = false;
+                loadImage("pacmanclosed.png");
+            }
         } else {
-            openmouth = false;
-            loadImage("pacmanclosed.png");
+            if (!openmouth) {
+                openmouth = true;
+                loadImage("Heat.png");
+            } else {
+                openmouth = false;
+                loadImage("Heat2.png");
+            }
         }
     }
 }
