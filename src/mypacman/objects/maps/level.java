@@ -41,7 +41,7 @@ public class level extends basicMapFunctions implements basicMap {
         try {
 //            JSONArray ary = new JSONArray("[{\"Type\":\"V\",\"x\":274,\"y\":120,\"height\":200},{\"Type\":\"V\",\"x\":94,\"y\":140,\"height\":20},{\"Type\":\"V\",\"x\":494,\"y\":140,\"height\":50},{\"Type\":\"H\",\"x\":494,\"y\":190,\"width\":170},{\"Type\":\"V\",\"x\":660,\"y\":190,\"height\":150},{\"Type\":\"H\",\"x\":84,\"y\":100,\"width\":1200},{\"Type\":\"H\",\"x\":84,\"y\":300,\"width\":1200},{\"Type\":\"H\",\"x\":204,\"y\":200,\"width\":100},{\"Type\":\"F\",\"x\":80,\"y\":160,\"width\":130,\"height\":120},{\"Type\":\"F\",\"x\":230,\"y\":160,\"width\":130,\"height\":120}]");
 
-            System.out.println("ary :" + ary.toString());
+//            System.out.println("ary :" + ary.toString());
             generateFromJSON(ary, g2d);
         } catch (Exception e) {
             e.printStackTrace();

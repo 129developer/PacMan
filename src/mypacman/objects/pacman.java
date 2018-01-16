@@ -14,23 +14,51 @@ import javax.swing.Timer;
  *
  * @author bayasys
  */
-public class pacman extends Sprite implements ActionListener {
+public class pacman extends Sprite {
 
     boolean left = false, openmouth = true, isAlive = true;
     private int dx;
     private int dy;
-    Timer timer;
+//    Timer timer;
 
-    public pacman(int x, int y, String imagename) {
-        super(x, y, imagename);
-        timer = new Timer(150, this);
-        timer.start();
-    }
+//    public pacman(int x, int y, String imagename) {
+//        super(x, y, imagename);
+//        Thread thread = new Thread() {
+//            public void run() {
+//                while (true) {
+//                    try {
+//                        actionPerformed(null);
+//                        Thread.sleep(20);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        };
+//
+//        thread.start();
+////        timer = new Timer(150, this);
+////        timer.start();
+//    }
 
     public pacman(int x, int y) {
         super(x, y, "pacmanclosed.png");
-        timer = new Timer(150, this);
-        timer.start();
+        Thread thread = new Thread() {
+            public void run() {
+                while (true) {
+                    try {
+                        actionPerformed(null);
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        thread.start();
+//        timer = new Timer(150, this);
+//        timer.start();
     }
 
     public void flipLeft() {
@@ -169,7 +197,6 @@ public class pacman extends Sprite implements ActionListener {
         }
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         if (isAlive) {
             if (!openmouth) {
