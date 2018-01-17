@@ -40,7 +40,6 @@ public class pacman extends Sprite {
 ////        timer = new Timer(150, this);
 ////        timer.start();
 //    }
-
     public pacman(int x, int y) {
         super(x, y, "pacmanclosed.png");
         Thread thread = new Thread() {
@@ -137,7 +136,7 @@ public class pacman extends Sprite {
             }
             if (KeyEvent.VK_LEFT == key) {
                 dx = -MOVEVAL;
-                if (dx < 0 && (getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {////left
+                if (dx < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x, dy + y + height).equals(BLOCKCOLOR))) {////left
                     flag = true;
                 }
             }
@@ -149,7 +148,7 @@ public class pacman extends Sprite {
             }
             if (KeyEvent.VK_UP == key) {
                 dy = -MOVEVAL;
-                if (dy < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//up
+                if (dy < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR))) {//up
                     flag = true;
                 }
             }
