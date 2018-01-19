@@ -40,6 +40,13 @@ public class Sprite {
         loadImage(imageName);
     }
 
+    public Sprite(int x, int y) {
+        this.x = x;
+        this.y = y;
+        vis = true;
+//        loadImage(null);
+    }
+
     protected void loadImage(String imageName) {
         ImageIcon ii = new ImageIcon(genUtils.getResource(imageName));
         image = ii.getImage();

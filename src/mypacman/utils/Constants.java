@@ -9,15 +9,15 @@ import java.awt.Color;
 
 /**
  *
- * @author bayasys
+ * @author Mukil
  */
 public class Constants {
+
     public static Color BLOCKCOLOR = Color.GRAY;
     public static Color PATHCOLOR = Color.BLACK;
     public static int MOVEVAL = 4;
     public static int WINDOW_WIDTH = 600;
     public static int WINDOW_HEIGHT = 600;
     public static int CHARWIDTH = 30;
-    
-    
+
 }

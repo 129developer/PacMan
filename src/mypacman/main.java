@@ -5,30 +5,30 @@
  */
 package mypacman;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.Timer;
 import mypacman.objects.maps.*;
 import mypacman.utils.Constants;
 
 /**
  *
- * @author bayasys
+ * @author Mukil
  */
 public class main extends Frame implements Runnable {
 
     RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     int x1 = 100, x2 = 150, y1 = 100, y2 = 100;
     level currentMap = new level();
+    long beforeTime, timeDiff, sleep;
+    Graphics2D g2d;
 
     public main() {
         super("PacMan");
@@ -48,7 +48,7 @@ public class main extends Frame implements Runnable {
         setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
         setMaximizedBounds(null);
         setVisible(true);
-        
+
     }
 
     public static void main(String args[]) {
@@ -56,27 +56,26 @@ public class main extends Frame implements Runnable {
     }
 
     public void paint(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+        super.paint(g);
+        g2d = (Graphics2D) g;
         currentMap.generateMap(g2d);
         if (currentMap.pm != null) {
-            currentMap.paintGhosts(g2d);
-            
+            g2d.setColor(Color.red);
             g2d.drawImage(currentMap.pm.getImage(), currentMap.pm.getX(), currentMap.pm.getY(), currentMap.pm.getWidth(), currentMap.pm.getHeight(), this);
+//            g2d.drawOval(currentMap.pm.getX(), currentMap.pm.getY(), 2, 2);
         }
-        Toolkit.getDefaultToolkit().sync();
+
     }
 
 //    @Override
     @Override
     public void run() {
-        long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
         while (true) {
             if (currentMap != null && currentMap.pm != null) {
                 currentMap.pm.move();
                 currentMap.moveGhosts();
             }
-
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = 40 - timeDiff;
             if (sleep < 0) {
@@ -84,29 +83,23 @@ public class main extends Frame implements Runnable {
             }
             try {
                 repaint();
+                Toolkit.getDefaultToolkit().sync();
                 Thread.sleep(30);
             } catch (InterruptedException e) {
                 System.out.println("Interrupted: " + e.getMessage());
             }
-
             beforeTime = System.currentTimeMillis();
         }
 
     }
-//
-//    public void actionPerformed(ActionEvent e) {
-//        if (currentMap != null && currentMap.pm != null) {
-//            currentMap.pm.move();
-//            currentMap.moveGhosts();
-//        }
-//        repaint();
-//    }
 
     private class TAdapter extends KeyAdapter {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            currentMap.pm.keyPressed(e);
+            if (currentMap != null && currentMap.pm != null) {
+                currentMap.pm.keyPressed(e);
+            }
         }
     }
 

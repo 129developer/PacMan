@@ -5,41 +5,20 @@
  */
 package mypacman.objects;
 
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import javax.swing.Timer;
 
 /**
  *
- * @author bayasys
+ * @author Mukil
  */
 public class pacman extends Sprite {
 
     boolean left = false, openmouth = true, isAlive = true;
     private int dx;
     private int dy;
-//    Timer timer;
 
-//    public pacman(int x, int y, String imagename) {
-//        super(x, y, imagename);
-//        Thread thread = new Thread() {
-//            public void run() {
-//                while (true) {
-//                    try {
-//                        actionPerformed(null);
-//                        Thread.sleep(20);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        };
-//
-//        thread.start();
-////        timer = new Timer(150, this);
-////        timer.start();
-//    }
     public pacman(int x, int y) {
         super(x, y, "pacmanclosed.png");
         Thread thread = new Thread() {
@@ -54,10 +33,7 @@ public class pacman extends Sprite {
                 }
             }
         };
-
         thread.start();
-//        timer = new Timer(150, this);
-//        timer.start();
     }
 
     public void flipLeft() {
@@ -74,6 +50,10 @@ public class pacman extends Sprite {
             setX(x - height);
             setWidth(-width);
         }
+    }
+
+    public boolean contains(pacBall p) {
+        return (getX() < p.getX() && getY() < p.getY() && getX() + getWidth() > p.getX() && getY() + getHeight() > p.getY());
     }
 
     public void die() {
@@ -106,7 +86,7 @@ public class pacman extends Sprite {
                 flag = true;
             } else if (dy > 0 && (getPixel(dx + x, dy + y + height).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//down
                 flag = true;
-            } else if (dy < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//up
+            } else if (dy < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR))) {//up
                 flag = true;
             }
             if (flag) {

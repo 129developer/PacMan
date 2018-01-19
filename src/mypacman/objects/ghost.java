@@ -5,14 +5,10 @@
  */
 package mypacman.objects;
 
-import java.awt.AWTException;
-import java.awt.Color;
-import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.Timer;
-import mypacman.utils.Constants;
 
 /**
  *
@@ -41,7 +37,7 @@ public class ghost extends Sprite implements ActionListener {
     }
 
     public ghost(int x, int y, int gt) {
-        super(x, y, "ghost"+gt+".png");
+        super(x, y, "ghost" + gt + ".png");
         GHOSTTYPE = gt;
 //        timer = new Timer(250, this);
 //        timer.start();
@@ -59,64 +55,155 @@ public class ghost extends Sprite implements ActionListener {
         int pmy = pm.getY();
         int difx = pmx - x;
         int dify = pmy - y;
-        dify = dify > 0 ? dify : -dify;
-        difx = difx > 0 ? difx : -difx;
-        if (difx <= width && dify <= height) {
+        dify = Math.abs(dify);
+        difx = Math.abs(difx);
+        if (difx < width && dify < height) {
             pm.die();
         }
     }
 
-    public void moveFollower(pacman pm) {
+    public void moveFollowerNew(pacman pm) {
         checkCollition();
         int pmx = pm.getX();
         int pmy = pm.getY();
-        int difx = pmx - x;
-        int dify = pmy - y;
-        dify = Math.abs(dify);
-        difx = Math.abs(difx);
+        int difx = Math.abs(pmx - x);
+        int dify = Math.abs(pmy - y);
+        if (difx > dify) { // dist to X is > dis to Y
+            if (pmx > x) { //PM on right
+                if (!checkCollition(KeyEvent.VK_RIGHT)) {
+                    dx = MOVEVAL;
+                } else if (!checkCollition(KeyEvent.VK_LEFT)) {
+                    dx = -MOVEVAL;
+                } else {
+                    dx = 0;
+                }
+            } else if (x > pmx) { //PM on left
+                if (!checkCollition(KeyEvent.VK_LEFT)) {
+                    dx = -MOVEVAL;
+                } else if (!checkCollition(KeyEvent.VK_RIGHT)) {
+                    dx = MOVEVAL;
+                } else {
+                    dx = 0;
+                }
+            }
+            if (dx == 0) { //Cant move left or right
+                if (pmy > y) { //PM down 
+                    dy = MOVEVAL;
+                    if (checkCollition(KeyEvent.VK_DOWN)) {
+                        if (checkCollition(KeyEvent.VK_UP)) {
+                            dy = 0;
+                        } else {
+                            dy = -MOVEVAL;
+                        }
+                    }
+                } else {//up
+                    dy = -MOVEVAL;
+                    if (checkCollition(KeyEvent.VK_UP)) {
+                        if (checkCollition(KeyEvent.VK_DOWN)) {
+                            dy = 0;
+                        } else {
+                            dy = MOVEVAL;
+                        }
+                    }
+                }
+            }
+        } else {// dist to Y is > dis to X
+            if (pmy > y) { //PM on right
+                if (!checkCollition(KeyEvent.VK_DOWN)) {
+                    dy = MOVEVAL;
+                } else if (!checkCollition(KeyEvent.VK_UP)) {
+                    dy = -MOVEVAL;
+                } else {
+                    dy = 0;
+                }
+            } else if (y > pmy) { //PM on left
+                if (!checkCollition(KeyEvent.VK_UP)) {
+                    dy = -MOVEVAL;
+                } else if (!checkCollition(KeyEvent.VK_DOWN)) {
+                    dy = MOVEVAL;
+                } else {
+                    dy = 0;
+                }
+            }
+
+            if (dy == 0) {
+                if (pmx > x) {
+                    dx = MOVEVAL;
+                    if (checkCollition(KeyEvent.VK_RIGHT)) {
+                        if (checkCollition(KeyEvent.VK_LEFT)) {
+                            dx = 0;
+                        } else {
+                            dx = -MOVEVAL;
+                        }
+                    }
+                } else {
+                    dx = -MOVEVAL;
+                    if (checkCollition(KeyEvent.VK_LEFT)) {
+                        if (checkCollition(KeyEvent.VK_RIGHT)) {
+                            dx = 0;
+                        } else {
+                            dx = MOVEVAL;
+                        }
+
+                    }
+                }
+            }
+
+        }
+        x += dx;
+        y += dy;
+    }
+
+    public void moveFollower(pacman pm) {
+
+//        checkCollition();
+        int pmx = pm.getX();
+        int pmy = pm.getY();
+        int difx = Math.abs(pmx - x);
+        int dify = Math.abs(pmy - y);
         if (difx > dify) {
             // X
             if (pmx > x) {
-                dx = 1;
+                dx = MOVEVAL;
                 if (checkCollition(KeyEvent.VK_RIGHT)) {
                     if (checkCollition(KeyEvent.VK_LEFT)) {
                         dx = 0;
                     } else {
-                        dx = -1;
+                        dx = -MOVEVAL;
                     }
-
                 }
             } else {
-                dx = -1;
+                dx = -MOVEVAL;
                 if (checkCollition(KeyEvent.VK_LEFT)) {
                     if (checkCollition(KeyEvent.VK_RIGHT)) {
                         dx = 0;
                     } else {
-                        dx = 1;
+                        dx = MOVEVAL;
                     }
 
                 }
             }
-        } else {
+        }
+
+        if (dx == 0) {
             // Y
 
             if (pmy > y) { //down
-                dy = 1;
+                dy = MOVEVAL;
                 if (checkCollition(KeyEvent.VK_DOWN)) {
                     if (checkCollition(KeyEvent.VK_UP)) {
                         dy = 0;
                     } else {
-                        dy = -1;
+                        dy = -MOVEVAL;
                     }
-
                 }
             } else {//up
-                dy = -1;
+                dy = -MOVEVAL;
                 if (checkCollition(KeyEvent.VK_UP)) {
                     if (checkCollition(KeyEvent.VK_DOWN)) {
                         dy = 0;
                     } else {
-                        dy = 1;
+                        dy = MOVEVAL;
                     }
 
                 }
@@ -124,6 +211,7 @@ public class ghost extends Sprite implements ActionListener {
         }
         x += dx;
         y += dy;
+//        moveFollowerNew(pm);
     }
 
     public void moveHGuard() {
@@ -131,22 +219,22 @@ public class ghost extends Sprite implements ActionListener {
         // X
         if (touchleft) {
             if (!checkCollition(KeyEvent.VK_RIGHT)) {
-                dx = 1;
+                dx = MOVEVAL;
             } else {
                 touchright = true;
                 touchleft = false;
-                dx = -1;
+                dx = -MOVEVAL;
             }
         }
 
         if (touchright) {
-            dx = 1;
+            dx = MOVEVAL;
             if (!checkCollition(KeyEvent.VK_LEFT)) {
-                dx = -1;
+                dx = -MOVEVAL;
             } else {
                 touchleft = true;
                 touchright = false;
-                dx = 1;
+                dx = MOVEVAL;
             }
         }
         x += dx;
@@ -179,6 +267,40 @@ public class ghost extends Sprite implements ActionListener {
         return false;
     }
 
+//    public boolean checkCollition(int key) {
+//        boolean flag = false;
+//        try {
+//            int dx = 0, MOVEVAL = this.MOVEVAL;
+//            int dy = 0;
+//            if (KeyEvent.VK_RIGHT == key) {
+//                dx = MOVEVAL;
+//                if ((getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//right
+//                    flag = true;
+//                }
+//            }
+//            if (KeyEvent.VK_LEFT == key) {
+//                dx = -MOVEVAL;
+//                if (dx < 0 && (getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {////left
+//                    flag = true;
+//                }
+//            }
+//            if (KeyEvent.VK_DOWN == key) {
+//                dy = MOVEVAL;
+//                if (dy > 0 && (getPixel(dx + x, dy + y + height).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//down
+//                    flag = true;
+//                }
+//            }
+//            if (KeyEvent.VK_UP == key) {
+//                dy = -MOVEVAL;
+//                if (dy < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//up
+//                    flag = true;
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return flag;
+//    }
     public boolean checkCollition(int key) {
         boolean flag = false;
         try {
@@ -192,7 +314,7 @@ public class ghost extends Sprite implements ActionListener {
             }
             if (KeyEvent.VK_LEFT == key) {
                 dx = -MOVEVAL;
-                if (dx < 0 && (getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {////left
+                if (dx < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x, dy + y + height).equals(BLOCKCOLOR))) {////left
                     flag = true;
                 }
             }
@@ -204,10 +326,11 @@ public class ghost extends Sprite implements ActionListener {
             }
             if (KeyEvent.VK_UP == key) {
                 dy = -MOVEVAL;
-                if (dy < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//up
+                if (dy < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR))) {//up
                     flag = true;
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

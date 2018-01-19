@@ -91,14 +91,21 @@ public class MapGenerator extends Frame implements ActionListener {
                 Circle c = (Circle) s;
                 if (c.getType().equalsIgnoreCase("PM")) {
                     g2d.setColor(Color.BLUE);
+                    g2d.fillOval(c.getX(), c.getY(), c.getRadius() / 2, c.getRadius() / 2);
                 } else if (c.getType().equalsIgnoreCase("GH")) {
                     g2d.setColor(Color.GREEN);
+                    g2d.fillOval(c.getX(), c.getY(), c.getRadius() / 2, c.getRadius() / 2);
                 } else if (c.getType().equalsIgnoreCase("GV")) {
                     g2d.setColor(Color.RED);
+                    g2d.fillOval(c.getX(), c.getY(), c.getRadius() / 2, c.getRadius() / 2);
                 } else if (c.getType().equalsIgnoreCase("GF")) {
                     g2d.setColor(Color.YELLOW);
+                    g2d.fillOval(c.getX(), c.getY(), c.getRadius() / 2, c.getRadius() / 2);
+                } else if (c.getType().equalsIgnoreCase("PB")) {
+                    g2d.setColor(Color.PINK);
+                    g2d.fillOval(c.getX(), c.getY(), 10, 10);
                 }
-                g2d.fillOval(c.getX(), c.getY(), c.getRadius() / 2, c.getRadius() / 2);
+
             } else {
                 g2d.setColor(Color.BLACK);
                 g2d.fill(s);
@@ -247,6 +254,20 @@ public class MapGenerator extends Frame implements ActionListener {
             });
             add(anItem);
 
+            anItem = new JMenuItem("Add PAC-Balls");
+            anItem.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    try {
+                        Shape s = new Circle(popupX, popupY, 60, "PB");
+                        sAry.add(s);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            add(anItem);
             anItem = new JMenuItem("Save");
             anItem.addActionListener(new java.awt.event.ActionListener() {
                 @Override
@@ -316,6 +337,13 @@ public class MapGenerator extends Frame implements ActionListener {
                     pmOb.put("x", (int) s1.getX());
                     pmOb.put("y", (int) s1.getY());
                     pmOb.put("OBJTYPE", "F_GHOST_POSITION");
+                    ary.put(pmOb);
+                }
+                if (s1.getType().equalsIgnoreCase("PB")) {
+                    JSONObject pmOb = new JSONObject();
+                    pmOb.put("x", (int) s1.getX());
+                    pmOb.put("y", (int) s1.getY());
+                    pmOb.put("OBJTYPE", "PB_POSITION");
                     ary.put(pmOb);
                 }
             }
