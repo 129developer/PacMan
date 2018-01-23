@@ -26,7 +26,7 @@ public class main extends Frame implements Runnable {
 
     RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     int x1 = 100, x2 = 150, y1 = 100, y2 = 100;
-    level currentMap = new level();
+    public level currentMap = new level();
     long beforeTime, timeDiff, sleep;
     Graphics2D g2d;
 
@@ -48,17 +48,20 @@ public class main extends Frame implements Runnable {
         setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
         setMaximizedBounds(null);
         setVisible(true);
-
     }
 
     public static void main(String args[]) {
-        new Thread(new main()).start();
+        Constants.MAIN = new main();
+        Constants.MAINTHREAD = new Thread(Constants.MAIN);
+        Constants.MAINTHREAD.start();
     }
 
     public void paint(Graphics g) {
         super.paint(g);
         g2d = (Graphics2D) g;
-        currentMap.generateMap(g2d);
+        if (Constants.CURRENTLEVEL.running) {
+            currentMap.generateMap(g2d);
+        }
         if (currentMap.pm != null) {
             g2d.setColor(Color.red);
             g2d.drawImage(currentMap.pm.getImage(), currentMap.pm.getX(), currentMap.pm.getY(), currentMap.pm.getWidth(), currentMap.pm.getHeight(), this);

@@ -5,7 +5,6 @@
  */
 package mypacman.objects;
 
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -39,16 +38,18 @@ public class pacman extends Sprite {
     public void flipLeft() {
         if (!left) {
             left = true;
-            setX(x + height);
-            setWidth(-width);
+//            setX(x + height);
+//            setWidth(-width);
+            loadImage("pacmanclosedle.png");
         }
     }
 
     public void flipRight() {
         if (left) {
             left = false;
-            setX(x - height);
-            setWidth(-width);
+//            setX(x - height);
+//            setWidth(-width);
+            loadImage("pacmanclosed.png");
         }
     }
 
@@ -82,7 +83,7 @@ public class pacman extends Sprite {
 
             if (dx > 0 && (getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//right
                 flag = true;
-            } else if (dx < 0 && (getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {////left
+            } else if (dx < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x, dy + y + height).equals(BLOCKCOLOR))) {////left
                 flag = true;
             } else if (dy > 0 && (getPixel(dx + x, dy + y + height).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//down
                 flag = true;
@@ -180,10 +181,18 @@ public class pacman extends Sprite {
         if (isAlive) {
             if (!openmouth) {
                 openmouth = true;
-                loadImage("pacman.png");
+                if (!left) {
+                    loadImage("pacman.png");
+                } else {
+                    loadImage("pacmanle.png");
+                }
             } else {
                 openmouth = false;
-                loadImage("pacmanclosed.png");
+                if (!left) {
+                    loadImage("pacmanclosed.png");
+                } else {
+                    loadImage("pacmanclosedle.png");
+                }
             }
         } else {
             if (!openmouth) {

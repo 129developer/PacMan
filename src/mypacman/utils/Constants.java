@@ -6,6 +6,9 @@
 package mypacman.utils;
 
 import java.awt.Color;
+import mypacman.main;
+import static mypacman.main.main;
+import mypacman.objects.maps.level;
 
 /**
  *
@@ -19,5 +22,8 @@ public class Constants {
     public static int WINDOW_WIDTH = 600;
     public static int WINDOW_HEIGHT = 600;
     public static int CHARWIDTH = 30;
+    public static level CURRENTLEVEL = new level();
+    public static main MAIN = null;
+    public static Thread MAINTHREAD = null;
 
 }

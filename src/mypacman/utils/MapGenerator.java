@@ -75,6 +75,12 @@ public class MapGenerator extends Frame implements ActionListener {
         setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
         setMaximizedBounds(null);
         setVisible(true);
+        try {
+            generateFromJSONAry("[{\"Type\":\"H\",\"x\":41,\"y\":61,\"height\":40,\"width\":1282,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":40,\"y\":62,\"height\":593,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":42,\"y\":616,\"height\":40,\"width\":1266,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":1286,\"y\":62,\"height\":594,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":74,\"y\":147,\"height\":40,\"width\":77,\"OBJTYPE\":\"PATH\"},{\"x\":74,\"y\":157,\"OBJTYPE\":\"PP_POSITION\"},{\"x\":74,\"y\":167,\"OBJTYPE\":\"PB_POSITION\"},{\"Type\":\"V\",\"x\":142,\"y\":94,\"height\":169,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":67,\"y\":234,\"height\":40,\"width\":243,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":270,\"y\":264,\"height\":362,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":67,\"y\":342,\"height\":40,\"width\":205,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":53,\"y\":299,\"height\":40,\"width\":16,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":70,\"y\":294,\"height\":40,\"width\":209,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":100,\"y\":264,\"height\":48,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":157,\"y\":269,\"height\":41,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":219,\"y\":266,\"height\":41,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":69,\"y\":404,\"height\":40,\"width\":95,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":125,\"y\":405,\"height\":120,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":74,\"y\":485,\"height\":40,\"width\":52,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":151,\"y\":455,\"height\":40,\"width\":133,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":187,\"y\":483,\"height\":104,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":68,\"y\":547,\"height\":40,\"width\":141,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":152,\"y\":574,\"height\":47,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":299,\"y\":528,\"height\":40,\"width\":1018,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":357,\"y\":96,\"height\":455,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":461,\"y\":97,\"height\":472,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":563,\"y\":94,\"height\":452,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":664,\"y\":96,\"height\":444,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":760,\"y\":91,\"height\":451,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":852,\"y\":91,\"height\":463,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":774,\"y\":177,\"height\":40,\"width\":86,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":695,\"y\":260,\"height\":40,\"width\":71,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":579,\"y\":366,\"height\":40,\"width\":94,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":476,\"y\":455,\"height\":40,\"width\":97,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":383,\"y\":380,\"height\":40,\"width\":87,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":166,\"y\":147,\"height\":40,\"width\":605,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":973,\"y\":90,\"height\":82,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":883,\"y\":142,\"height\":40,\"width\":129,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":936,\"y\":179,\"height\":104,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":969,\"y\":221,\"height\":40,\"width\":143,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":1061,\"y\":97,\"height\":161,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":1085,\"y\":140,\"height\":40,\"width\":130,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":1185,\"y\":79,\"height\":101,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":1111,\"y\":168,\"height\":279,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":875,\"y\":282,\"height\":40,\"width\":243,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":1025,\"y\":312,\"height\":164,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":878,\"y\":381,\"height\":40,\"width\":414,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":1185,\"y\":174,\"height\":226,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":883,\"y\":475,\"height\":40,\"width\":272,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":1052,\"y\":441,\"height\":40,\"width\":5,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":1052,\"y\":428,\"height\":40,\"width\":99,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":1138,\"y\":476,\"height\":0,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":1124,\"y\":475,\"height\":40,\"width\":163,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":538,\"y\":565,\"height\":54,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":740,\"y\":558,\"height\":59,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":959,\"y\":557,\"height\":60,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":1126,\"y\":557,\"height\":77,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":851,\"y\":556,\"height\":75,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":638,\"y\":564,\"height\":62,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":459,\"y\":563,\"height\":55,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"Type\":\"V\",\"x\":298,\"y\":582,\"height\":40,\"width\":7,\"OBJTYPE\":\"PATH\"},{\"Type\":\"H\",\"x\":299,\"y\":573,\"height\":40,\"width\":170,\"OBJTYPE\":\"PATH\"},{\"x\":147,\"y\":151,\"OBJTYPE\":\"PM_POSITION\"},{\"x\":45,\"y\":621,\"OBJTYPE\":\"H_GHOST_POSITION\"},{\"Type\":\"H\",\"x\":1290,\"y\":76,\"height\":0,\"width\":40,\"OBJTYPE\":\"PATH\"},{\"x\":1291,\"y\":67,\"OBJTYPE\":\"V_GHOST_POSITION\"},{\"x\":569,\"y\":367,\"OBJTYPE\":\"F_GHOST_POSITION\"}]");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -104,11 +110,14 @@ public class MapGenerator extends Frame implements ActionListener {
                 } else if (c.getType().equalsIgnoreCase("PB")) {
                     g2d.setColor(Color.PINK);
                     g2d.fillOval(c.getX(), c.getY(), 10, 10);
+                } else if (c.getType().equalsIgnoreCase("PP")) {
+                    g2d.setColor(Color.WHITE);
+                    g2d.fillOval(c.getX(), c.getY(), 15, 15);
                 }
 
             } else {
                 g2d.setColor(Color.BLACK);
-                g2d.fill(s);
+                g2d.fillRoundRect((int) s.getBounds().getX(), (int) s.getBounds().getY(), (int) s.getBounds().getWidth(), (int) s.getBounds().getHeight(), 30, 30);
             }
         }
         int width = Math.abs(curX - startX);
@@ -268,6 +277,21 @@ public class MapGenerator extends Frame implements ActionListener {
                 }
             });
             add(anItem);
+
+            anItem = new JMenuItem("Add PAC-Pellets");
+            anItem.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    try {
+                        Shape s = new Circle(popupX, popupY, 60, "PP");
+                        sAry.add(s);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            add(anItem);
             anItem = new JMenuItem("Save");
             anItem.addActionListener(new java.awt.event.ActionListener() {
                 @Override
@@ -281,6 +305,38 @@ public class MapGenerator extends Frame implements ActionListener {
                 }
             });
             add(anItem);
+
+        }
+    }
+
+    private void generateFromJSONAry(String str) throws Exception {
+        JSONArray ary = new JSONArray(str);
+        for (int i = 0; i < ary.length(); i++) {
+            JSONObject ob = ary.getJSONObject(i);
+            System.out.println("OBJ " + ob);
+            if (ob.getString("OBJTYPE").equalsIgnoreCase("PATH")) {
+                Shape s = new Rectangle(ob.getInt("x"), ob.getInt("y"), ob.getInt("width"), ob.getInt("height"));
+                sAry.add(s);
+                System.out.println("PATH ADDED");
+            } else if (ob.getString("OBJTYPE").equalsIgnoreCase("PM_POSITION")) {
+                Shape s = new Circle(ob.getInt("x"), ob.getInt("y"), 60, "PM");
+                sAry.add(s);
+            } else if (ob.getString("OBJTYPE").equalsIgnoreCase("H_GHOST_POSITION")) {
+                Shape s = new Circle(ob.getInt("x"), ob.getInt("y"), 60, "GH");
+                sAry.add(s);
+            } else if (ob.getString("OBJTYPE").equalsIgnoreCase("V_GHOST_POSITION")) {
+                Shape s = new Circle(ob.getInt("x"), ob.getInt("y"), 60, "GV");
+                sAry.add(s);
+            } else if (ob.getString("OBJTYPE").equalsIgnoreCase("F_GHOST_POSITION")) {
+                Shape s = new Circle(ob.getInt("x"), ob.getInt("y"), 60, "GF");
+                sAry.add(s);
+            } else if (ob.getString("OBJTYPE").equalsIgnoreCase("PB_POSITION")) {
+                Shape s = new Circle(ob.getInt("x"), ob.getInt("y"), 60, "PB");
+                sAry.add(s);
+            } else if (ob.getString("OBJTYPE").equalsIgnoreCase("PP_POSITION")) {
+                Shape s = new Circle(ob.getInt("x"), ob.getInt("y"), 60, "PP");
+                sAry.add(s);
+            }
 
         }
     }
@@ -344,6 +400,13 @@ public class MapGenerator extends Frame implements ActionListener {
                     pmOb.put("x", (int) s1.getX());
                     pmOb.put("y", (int) s1.getY());
                     pmOb.put("OBJTYPE", "PB_POSITION");
+                    ary.put(pmOb);
+                }
+                if (s1.getType().equalsIgnoreCase("PP")) {
+                    JSONObject pmOb = new JSONObject();
+                    pmOb.put("x", (int) s1.getX());
+                    pmOb.put("y", (int) s1.getY());
+                    pmOb.put("OBJTYPE", "PP_POSITION");
                     ary.put(pmOb);
                 }
             }

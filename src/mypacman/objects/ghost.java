@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.Timer;
+import mypacman.utils.Constants;
 
 /**
  *
@@ -17,13 +18,36 @@ import javax.swing.Timer;
 public class ghost extends Sprite implements ActionListener {
 
     boolean touchleft = true, touchright = false, openmouth = true;
+    private int FRIGHT_DELAY = 10;
     private int dx = 0;
     private int dy = 0;
-    private int GHOSTTYPE = 2;//1 Follower, 2 horizondal guard, 3 vertical guard
+    private int GHOSTTYPE = 1;//1 Follower, 2 horizondal guard, 3 vertical guard
+    private int GHOSTTYPEHIS = 2;//1 Follower, 2 horizondal guard, 3 vertical guard,4 FRIGHTEND
     Timer timer;
 
     public int getGHOSTTYPE() {
         return GHOSTTYPE;
+    }
+
+    public int getGHOSTTYPEHIS() {
+        return GHOSTTYPEHIS;
+    }
+
+    public void SetFrightend() {
+        GHOSTTYPEHIS = GHOSTTYPE;
+//        loadImage("ghost" + 4 + ".png");
+        GHOSTTYPE = 4;
+        loadImage("ghost" + GHOSTTYPE + ".png");
+        MOVEVAL -= 2;
+        timer = new Timer(1000 * FRIGHT_DELAY, this);
+        timer.start();
+    }
+
+    public void RevertFrightend() {
+        GHOSTTYPE = GHOSTTYPEHIS;
+        loadImage("ghost" + GHOSTTYPE + ".png");
+        MOVEVAL += 2;
+        timer.stop();
     }
 
     public void setGHOSTTYPE(int GHOSTTYPE) {
@@ -32,8 +56,7 @@ public class ghost extends Sprite implements ActionListener {
 
     public ghost(int x, int y, String imagename) {
         super(x, y, imagename);
-//        timer = new Timer(40, this);
-//        timer.start();
+
     }
 
     public ghost(int x, int y, int gt) {
@@ -50,6 +73,8 @@ public class ghost extends Sprite implements ActionListener {
             moveHGuard();
         } else if (GHOSTTYPE == 3) {
             moveHGuard();
+        } else if (GHOSTTYPE == 4) {
+            moveFrightend(pm);
         }
         int pmx = pm.getX();
         int pmy = pm.getY();
@@ -57,9 +82,16 @@ public class ghost extends Sprite implements ActionListener {
         int dify = pmy - y;
         dify = Math.abs(dify);
         difx = Math.abs(difx);
-        if (difx < width && dify < height) {
+
+        if (contains(pm) && GHOSTTYPE != 4) {
             pm.die();
+        } else if (contains(pm) && GHOSTTYPE == 4) {
+            Constants.CURRENTLEVEL.resetGhost(this);
         }
+    }
+
+    public boolean contains(pacman r) {
+        return x < r.x + r.width && x + width > r.x && y < r.y + r.height && y + height > r.y;
     }
 
     public void moveFollowerNew(pacman pm) {
@@ -155,60 +187,112 @@ public class ghost extends Sprite implements ActionListener {
     }
 
     public void moveFollower(pacman pm) {
-
-//        checkCollition();
+        checkCollition();
         int pmx = pm.getX();
         int pmy = pm.getY();
         int difx = Math.abs(pmx - x);
         int dify = Math.abs(pmy - y);
-        if (difx > dify) {
-            // X
-            if (pmx > x) {
-                dx = MOVEVAL;
-                if (checkCollition(KeyEvent.VK_RIGHT)) {
-                    if (checkCollition(KeyEvent.VK_LEFT)) {
-                        dx = 0;
-                    } else {
-                        dx = -MOVEVAL;
-                    }
-                }
-            } else {
-                dx = -MOVEVAL;
-                if (checkCollition(KeyEvent.VK_LEFT)) {
-                    if (checkCollition(KeyEvent.VK_RIGHT)) {
-                        dx = 0;
-                    } else {
-                        dx = MOVEVAL;
-                    }
 
-                }
-            }
-        }
-
-        if (dx == 0) {
-            // Y
-
-            if (pmy > y) { //down
-                dy = MOVEVAL;
-                if (checkCollition(KeyEvent.VK_DOWN)) {
-                    if (checkCollition(KeyEvent.VK_UP)) {
-                        dy = 0;
-                    } else {
-                        dy = -MOVEVAL;
-                    }
-                }
-            } else {//up
-                dy = -MOVEVAL;
+//        if (dx == 0) {
+        if (pmy > y) { //down
+            dy = MOVEVAL;
+            if (checkCollition(KeyEvent.VK_DOWN)) {
                 if (checkCollition(KeyEvent.VK_UP)) {
-                    if (checkCollition(KeyEvent.VK_DOWN)) {
-                        dy = 0;
-                    } else {
-                        dy = MOVEVAL;
-                    }
-
+                    dy = 0;
+                } else {
+                    dy = -MOVEVAL;
                 }
             }
+        } else {//up
+            dy = -MOVEVAL;
+            if (checkCollition(KeyEvent.VK_UP)) {
+                if (checkCollition(KeyEvent.VK_DOWN)) {
+                    dy = 0;
+                } else {
+                    dy = MOVEVAL;
+                }
+
+            }
         }
+//        } else if (dy == 0) {
+        if (pmx > x) {
+            dx = MOVEVAL;
+            if (checkCollition(KeyEvent.VK_RIGHT)) {
+                if (checkCollition(KeyEvent.VK_LEFT)) {
+                    dx = 0;
+                } else {
+                    dx = -MOVEVAL;
+                }
+            }
+        } else {
+            dx = -MOVEVAL;
+            if (checkCollition(KeyEvent.VK_LEFT)) {
+                if (checkCollition(KeyEvent.VK_RIGHT)) {
+                    dx = 0;
+                } else {
+                    dx = MOVEVAL;
+                }
+
+            }
+        }
+//        }
+//        }
+        x += dx;
+        y += dy;
+//        moveFollowerNew(pm);
+    }
+
+    public void moveFrightend(pacman pm) {
+        checkCollition();
+        int pmx = pm.getX();
+        int pmy = pm.getY();
+        int difx = Math.abs(pmx - x);
+        int dify = Math.abs(pmy - y);
+
+//        if (dx == 0) {
+        if (pmy < y) { //down
+            dy = MOVEVAL;
+            if (checkCollition(KeyEvent.VK_DOWN)) {
+                if (checkCollition(KeyEvent.VK_UP)) {
+                    dy = 0;
+                } else {
+                    dy = -MOVEVAL;
+                }
+            }
+        } else {//up
+            dy = -MOVEVAL;
+            if (checkCollition(KeyEvent.VK_UP)) {
+                if (checkCollition(KeyEvent.VK_DOWN)) {
+                    dy = 0;
+                } else {
+                    dy = MOVEVAL;
+                }
+
+            }
+        }
+//        } else if (dy == 0) {
+        if (pmx < x) {
+            dx = MOVEVAL;
+            if (checkCollition(KeyEvent.VK_RIGHT)) {
+                if (checkCollition(KeyEvent.VK_LEFT)) {
+                    dx = 0;
+                } else {
+                    dx = -MOVEVAL;
+                }
+            }
+        } else {
+            dx = -MOVEVAL;
+            if (checkCollition(KeyEvent.VK_LEFT)) {
+                if (checkCollition(KeyEvent.VK_RIGHT)) {
+                    dx = 0;
+                } else {
+                    dx = MOVEVAL;
+                }
+
+            }
+        }
+//        }
+//        }
         x += dx;
         y += dy;
 //        moveFollowerNew(pm);
@@ -267,44 +351,10 @@ public class ghost extends Sprite implements ActionListener {
         return false;
     }
 
-//    public boolean checkCollition(int key) {
-//        boolean flag = false;
-//        try {
-//            int dx = 0, MOVEVAL = this.MOVEVAL;
-//            int dy = 0;
-//            if (KeyEvent.VK_RIGHT == key) {
-//                dx = MOVEVAL;
-//                if ((getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//right
-//                    flag = true;
-//                }
-//            }
-//            if (KeyEvent.VK_LEFT == key) {
-//                dx = -MOVEVAL;
-//                if (dx < 0 && (getPixel(dx + x + width, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {////left
-//                    flag = true;
-//                }
-//            }
-//            if (KeyEvent.VK_DOWN == key) {
-//                dy = MOVEVAL;
-//                if (dy > 0 && (getPixel(dx + x, dy + y + height).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//down
-//                    flag = true;
-//                }
-//            }
-//            if (KeyEvent.VK_UP == key) {
-//                dy = -MOVEVAL;
-//                if (dy < 0 && (getPixel(dx + x, dy + y).equals(BLOCKCOLOR) || getPixel(dx + x + width, dy + y + height).equals(BLOCKCOLOR))) {//up
-//                    flag = true;
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return flag;
-//    }
     public boolean checkCollition(int key) {
         boolean flag = false;
         try {
-            int dx = 0, MOVEVAL = this.MOVEVAL;
+            int dx = 0, MOVEVAL = this.MOVEVAL + 5;
             int dy = 0;
             if (KeyEvent.VK_RIGHT == key) {
                 dx = MOVEVAL;
@@ -337,38 +387,9 @@ public class ghost extends Sprite implements ActionListener {
         return flag;
     }
 
-    public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_LEFT) {
-            if (!checkCollition(KeyEvent.VK_LEFT)) {
-                dx = -MOVEVAL;
-                dy = 0;
-            }
-        }
-        if (key == KeyEvent.VK_RIGHT) {
-            if (!checkCollition(KeyEvent.VK_RIGHT)) {
-                dx = MOVEVAL;
-                dy = 0;
-            }
-        }
-        if (key == KeyEvent.VK_UP) {
-            if (!checkCollition(KeyEvent.VK_UP)) {
-                dy = -MOVEVAL;
-                dx = 0;
-            }
-        }
-        if (key == KeyEvent.VK_DOWN) {
-            if (!checkCollition(KeyEvent.VK_DOWN)) {
-                dy = MOVEVAL;
-                dx = 0;
-            }
-        }
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
+        RevertFrightend();
     }
 
 }
