@@ -8,8 +8,12 @@ package mypacman.objects;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.TimerTask;
 import javax.swing.Timer;
 import mypacman.utils.Constants;
+import mypacman.utils.genUtils;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 /**
  *
@@ -21,9 +25,11 @@ public class ghost extends Sprite implements ActionListener {
     private int FRIGHT_DELAY = 10;
     private int dx = 0;
     private int dy = 0;
+    private boolean FRIGHTEND = false;
     private int GHOSTTYPE = 1;//1 Follower, 2 horizondal guard, 3 vertical guard
     private int GHOSTTYPEHIS = 2;//1 Follower, 2 horizondal guard, 3 vertical guard,4 FRIGHTEND
     Timer timer;
+    java.util.Timer timer1 = new java.util.Timer();
 
     public int getGHOSTTYPE() {
         return GHOSTTYPE;
@@ -34,8 +40,18 @@ public class ghost extends Sprite implements ActionListener {
     }
 
     public void SetFrightend() {
+        if (FRIGHTEND == true) {
+            if (timer != null) {
+                timer.stop();
+                timer.start();
+            }
+            return;
+        }
+        FRIGHTEND = true;
+        if (timer != null) {
+            timer.stop();
+        }
         GHOSTTYPEHIS = GHOSTTYPE;
-//        loadImage("ghost" + 4 + ".png");
         GHOSTTYPE = 4;
         loadImage("ghost" + GHOSTTYPE + ".png");
         MOVEVAL -= 2;
@@ -44,29 +60,30 @@ public class ghost extends Sprite implements ActionListener {
     }
 
     public void RevertFrightend() {
+        FRIGHTEND = false;
         GHOSTTYPE = GHOSTTYPEHIS;
         loadImage("ghost" + GHOSTTYPE + ".png");
         MOVEVAL += 2;
         timer.stop();
-    }
-
-    public void setGHOSTTYPE(int GHOSTTYPE) {
-        this.GHOSTTYPE = GHOSTTYPE;
-    }
-
-    public ghost(int x, int y, String imagename) {
-        super(x, y, imagename);
-
+        timer = null;
     }
 
     public ghost(int x, int y, int gt) {
         super(x, y, "ghost" + gt + ".png");
         GHOSTTYPE = gt;
-//        timer = new Timer(250, this);
-//        timer.start();
+        MOVEVAL = Constants.MOVEVAL;
+        timer1.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (!FRIGHTEND) {
+                    GHOSTTYPE = genUtils.getRandomNumberInRange(1, 4);
+                }
+            }
+        }, 500, 1000);
     }
 
     public void move(pacman pm) {
+
         if (GHOSTTYPE == 1) {
             moveFollower(pm);
         } else if (GHOSTTYPE == 2) {
@@ -86,7 +103,34 @@ public class ghost extends Sprite implements ActionListener {
         if (contains(pm) && GHOSTTYPE != 4) {
             pm.die();
         } else if (contains(pm) && GHOSTTYPE == 4) {
-            Constants.CURRENTLEVEL.resetGhost(this);
+            Constants.MAIN.Point += 100;
+            resetGhost(this);
+        }
+    }
+
+    public void resetGhost(ghost g) {
+        System.out.println("RESET G" + g.getGHOSTTYPEHIS());
+
+        try {
+            for (int i = 0; i < Constants.CURRENTLEVEL.ary.length(); i++) {
+                JSONObject ob = Constants.CURRENTLEVEL.ary.getJSONObject(i);
+                if (ob.has("OBJTYPE") && ob.getString("OBJTYPE").equalsIgnoreCase("H_GHOST_POSITION") && g.getGHOSTTYPEHIS() == 2) {
+                    g.setX(ob.getInt("x"));
+                    g.setY(ob.getInt("y"));
+                    g.RevertFrightend();
+                } else if (ob.has("OBJTYPE") && ob.getString("OBJTYPE").equalsIgnoreCase("V_GHOST_POSITION") && g.getGHOSTTYPEHIS() == 3) {
+                    g.setX(ob.getInt("x"));
+                    g.setY(ob.getInt("y"));
+                    g.RevertFrightend();
+                } else if (ob.has("OBJTYPE") && ob.getString("OBJTYPE").equalsIgnoreCase("F_GHOST_POSITION") && g.getGHOSTTYPEHIS() == 1) {
+                    g.setX(ob.getInt("x"));
+                    g.setY(ob.getInt("y"));
+                    g.RevertFrightend();
+                }
+            }
+            g.setMOVEVAL(Constants.MOVEVAL);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -180,7 +224,6 @@ public class ghost extends Sprite implements ActionListener {
                     }
                 }
             }
-
         }
         x += dx;
         y += dy;
@@ -193,7 +236,6 @@ public class ghost extends Sprite implements ActionListener {
         int difx = Math.abs(pmx - x);
         int dify = Math.abs(pmy - y);
 
-//        if (dx == 0) {
         if (pmy > y) { //down
             dy = MOVEVAL;
             if (checkCollition(KeyEvent.VK_DOWN)) {
@@ -214,7 +256,6 @@ public class ghost extends Sprite implements ActionListener {
 
             }
         }
-//        } else if (dy == 0) {
         if (pmx > x) {
             dx = MOVEVAL;
             if (checkCollition(KeyEvent.VK_RIGHT)) {
@@ -235,11 +276,8 @@ public class ghost extends Sprite implements ActionListener {
 
             }
         }
-//        }
-//        }
         x += dx;
         y += dy;
-//        moveFollowerNew(pm);
     }
 
     public void moveFrightend(pacman pm) {
@@ -249,7 +287,6 @@ public class ghost extends Sprite implements ActionListener {
         int difx = Math.abs(pmx - x);
         int dify = Math.abs(pmy - y);
 
-//        if (dx == 0) {
         if (pmy < y) { //down
             dy = MOVEVAL;
             if (checkCollition(KeyEvent.VK_DOWN)) {
@@ -270,7 +307,6 @@ public class ghost extends Sprite implements ActionListener {
 
             }
         }
-//        } else if (dy == 0) {
         if (pmx < x) {
             dx = MOVEVAL;
             if (checkCollition(KeyEvent.VK_RIGHT)) {
@@ -291,16 +327,11 @@ public class ghost extends Sprite implements ActionListener {
 
             }
         }
-//        }
-//        }
         x += dx;
         y += dy;
-//        moveFollowerNew(pm);
     }
 
     public void moveHGuard() {
-//        checkCollition();
-        // X
         if (touchleft) {
             if (!checkCollition(KeyEvent.VK_RIGHT)) {
                 dx = MOVEVAL;

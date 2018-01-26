@@ -25,6 +25,8 @@ public class Sprite {
     protected Color PATHCOLOR = Constants.PATHCOLOR;
     protected int MOVEVAL = Constants.MOVEVAL;
 
+    
+    
     public int getMOVEVAL() {
         return MOVEVAL;
     }
@@ -44,7 +46,6 @@ public class Sprite {
         this.x = x;
         this.y = y;
         vis = true;
-//        loadImage(null);
     }
 
     protected void loadImage(String imageName) {
